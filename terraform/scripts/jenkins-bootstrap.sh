@@ -1,6 +1,10 @@
 #!/bin/bash
 yum update -y
-yum install -y docker docker-compose-plugin aws-cli
+yum install -y docker
+yum install -y aws-cli curl
+
+sudo curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-$(uname -m) -o /usr/libexec/docker/cli-plugins/docker-compose
+sudo chmod +x /usr/libexec/docker/cli-plugins/docker-compose
 
 systemctl enable --now docker
 
