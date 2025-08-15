@@ -11,9 +11,12 @@ systemctl enable --now docker
 useradd jenkins
 usermod -aG docker jenkins
 
+mkdir -p /opt/jenkins/init-scripts
+chown -R jenkins:jenkins /opt/jenkins
 #${bucket_name} is injected by terraform templatefile
-aws s3 cp "s3://${bucket_name}/jenkins/" "/usr/local/bin/init-scripts/" --recursive
-chmod -R +x /usr/local/bin/init-scripts/
+aws s3 cp "s3://${bucket_name}/jenkins/" "/opt/jenkins/init-scripts/" --recursive
+mv /opt/jenkins/docker-compose.yml ../docker-compose.yml
+chmod -R +x /opt/jenkins/init-scripts/
 
 sudo -u jenkins docker compose up -d
 
