@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  jenkins:
+    image: jenkins/jenkins:latest
+    container_name: jenkins
+    ports: 
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      - /usr/local/bin/init-scripts/:/usr/local/bin/init-scripts:ro
+    user: root
+    command: /usr/local/bin/init-scripts/jenkins-config.sh
+
+volumes:
+  jenkins_home:

@@ -1,17 +1,14 @@
 #!/bin/bash
 yum update -y
-yum install docker -y
+yum install -y docker docker-compose-plugin aws-cli
 
-systemctl start docker
-systemctl enable docker
-
-docker pull jenkins/jenkins:latest
+systemctl enable --now docker
 
 useradd jenkins
 usermod -aG docker jenkins
 
-docker run -u jenkins -p 8080:8080 -p 50000:50000 -d \
--v jenkins_home:/var/jenkins_home \
--v /var/run/docker.sock:/var/run/docker.sock \
--v "$(command -v docker)":/usr/bin/docker \
-jenkins/jenkins:latest
+#${bucket_name} is injected by terraform templatefile
+aws s3 cp "s3://${bucket_name}/jenkins/" "/usr/local/bin/init-scripts/" --recursive
+chmod -R +x /usr/local/bin/init-scripts/
+
+sudo -u jenkins docker compose up -d

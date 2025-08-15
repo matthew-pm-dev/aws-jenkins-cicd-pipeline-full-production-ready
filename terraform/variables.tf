@@ -15,3 +15,9 @@ variable "jenkins_ami" {
   type        = string
   default     = "ami-0de716d6197524dd9"
 }
+
+variable "jenkins_scripts_path" {
+  description = "Path to the Jenkins scripts directory"
+  type        = string
+  default     = abspath("${path.module}/../jenkins/scripts")
+}

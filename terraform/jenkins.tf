@@ -34,12 +34,15 @@ data "template_file" "jenkins_bootstrap" {
 resource "aws_instance" "jenkins_server" {
   ami           = var.jenkins_ami
   instance_type = var.jenkins_instance_type
-  subnet_id              = element(data.aws_subnets.default.ids, 0)
+  subnet_id     = element(data.aws_subnets.default.ids, 0)
 
-  iam_instance_profile = aws_iam_instance_profile.ssm_ec2_profile.name
+  iam_instance_profile = aws_iam_instance_profile.jenkins_ec2_profile.name
   vpc_security_group_ids = [aws_security_group.jenkins.id]
 
-  user_data_base64 = base64encode(data.template_file.jenkins_bootstrap.rendered)
+  #user_data_base64 = base64encode(data.template_file.jenkins_bootstrap.rendered)
+  user_data = templatefile("${path.module}/scripts/jenkins_bootstrap.sh", {
+    bucket_name = aws_s3_bucket.config_scripts.bucket
+  })
 
   tags = {
     Name = "mpm-jenkins-server"
