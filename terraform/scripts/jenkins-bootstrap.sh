@@ -11,10 +11,14 @@ systemctl enable --now docker
 useradd jenkins
 usermod -aG docker jenkins
 
-mkdir -p /opt/jenkins/scripts
+mkdir -p /opt/jenkins/init-scripts
 chown -R jenkins:jenkins /opt/jenkins
-aws s3 cp "s3://${bucket_name}/jenkins/" "/opt/jenkins/" --recursive
-chmod -R +x /opt/jenkins/scripts/
+aws s3 cp "s3://${bucket_name}/jenkins" "/opt/jenkins/" --recursive
+#chmod -R +x /opt/jenkins/scripts/
 
 cd /opt/jenkins
+
+HOST_DOCKER_GID=$(stat -c '%g' /var/run/docker.sock)
+docker build --build-arg DOCKER_GID=$HOST_DOCKER_GID -t mpm-jenkins-custom:latest .
+
 sudo -u jenkins docker compose up -d

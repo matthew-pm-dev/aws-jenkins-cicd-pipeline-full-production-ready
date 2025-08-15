@@ -1,18 +1,20 @@
-FROM jenkins/jenkins:latest
-
-VOLUME /var/jenkins_home
-
-EXPOSE 8080 50000
+FROM jenkins/jenkins:jdk17
 
 USER root
 
-RUN apt-get update && apt-get install -y \
-    maven \
-    npm \
-    git \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+ARG DOCKER_GID
 
-WORKDIR /var/jenkins_home
+RUN groupadd -f -o -g "$DOCKER_GID" docker \
+    && usermod -aG docker jenkins
+
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y nodejs && \
+    jenkins-plugin-cli --plugins maven-plugin && \
+    rm -rf /var/lib/apt/lists/*
+
+#COPY init-scripts/ /var/jenkins_home/init.groovy.d/
 
 USER jenkins
+
