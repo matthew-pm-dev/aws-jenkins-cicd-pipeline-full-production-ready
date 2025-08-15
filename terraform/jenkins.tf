@@ -27,10 +27,6 @@ resource "aws_security_group" "jenkins" {
   }
 }
 
-data "template_file" "jenkins_bootstrap" {
-  template = file("${path.module}/scripts/jenkins_bootstrap.sh")
-}
-
 resource "aws_instance" "jenkins_server" {
   ami           = var.jenkins_ami
   instance_type = var.jenkins_instance_type
@@ -40,7 +36,7 @@ resource "aws_instance" "jenkins_server" {
   vpc_security_group_ids = [aws_security_group.jenkins.id]
 
   #user_data_base64 = base64encode(data.template_file.jenkins_bootstrap.rendered)
-  user_data = templatefile("${path.module}/scripts/jenkins_bootstrap.sh", {
+  user_data = templatefile("${path.module}/scripts/jenkins-bootstrap.sh", {
     bucket_name = aws_s3_bucket.config_scripts.bucket
   })
 
