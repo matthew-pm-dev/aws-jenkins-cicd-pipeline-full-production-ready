@@ -10,7 +10,19 @@ variable "jenkins_instance_type" {
   default     = "t2.micro"
 }
 
+variable "nexus_instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t3.large"
+}
+
 variable "jenkins_ami" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "ami-0de716d6197524dd9"
+}
+
+variable "nexus_ami" {
   description = "EC2 instance type"
   type        = string
   default     = "ami-0de716d6197524dd9"

@@ -1,12 +1,12 @@
-resource "aws_security_group" "jenkins" {
-  name        = "jenkins-sg"
-  description = "Jenkins server security group"
+resource "aws_security_group" "nexus" {
+  name        = "nexus-sg"
+  description = "Nexus server security group"
   vpc_id      = data.aws_vpc.default.id
 
   ingress {
-    description = "Jenkins Admin"
-    from_port   = 8080
-    to_port     = 8080
+    description = "Nexus Admin"
+    from_port   = 8081
+    to_port     = 8081
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -27,19 +27,17 @@ resource "aws_security_group" "jenkins" {
   }
 }
 
-resource "aws_instance" "jenkins_server" {
-  ami           = var.jenkins_ami
-  instance_type = var.jenkins_instance_type
+resource "aws_instance" "nexus_server" {
+  ami           = var.nexus_ami
+  instance_type = var.nexus_instance_type
   subnet_id     = element(data.aws_subnets.default.ids, 0)
 
   iam_instance_profile = aws_iam_instance_profile.jenkins_ec2_profile.name
-  vpc_security_group_ids = [aws_security_group.jenkins.id]
+  vpc_security_group_ids = [aws_security_group.nexus.id]
 
-  user_data = templatefile("${path.module}/scripts/jenkins-bootstrap.sh", {
-    bucket_name = aws_s3_bucket.config_scripts.bucket
-  })
+  user_data = file("${path.module}/scripts/nexus-bootstrap.sh")
 
   tags = {
-    Name = "mpm-jenkins-server"
+    Name = "mpm-nexus-server"
   }
 }

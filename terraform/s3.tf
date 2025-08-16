@@ -15,7 +15,6 @@ locals {
   jenkins_scripts_path = abspath("${path.module}/../jenkins")
 }
 
-
 resource "aws_s3_object" "jenkins_config_scripts" {
   for_each = fileset(local.jenkins_scripts_path, "**")
   bucket   = aws_s3_bucket.config_scripts.id
