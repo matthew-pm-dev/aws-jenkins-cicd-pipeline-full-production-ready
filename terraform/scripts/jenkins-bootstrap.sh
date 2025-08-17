@@ -14,7 +14,6 @@ usermod -aG docker jenkins
 mkdir -p /opt/jenkins/init-scripts
 chown -R jenkins:jenkins /opt/jenkins
 aws s3 cp "s3://${bucket_name}/jenkins" "/opt/jenkins/" --recursive
-#chmod -R +x /opt/jenkins/scripts/
 
 cd /opt/jenkins
 

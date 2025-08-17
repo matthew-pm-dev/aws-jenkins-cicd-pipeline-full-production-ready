@@ -1,0 +1,41 @@
+jenkins:
+  # Set the Jenkins system message (optional)
+  systemMessage: "Jenkins is running via CasC"
+
+  # Basic security setup
+  securityRealm:
+    local:
+      allowsSignup: false           # disable creating new users
+      users:
+        - id: "admin"               # initial admin user
+          password: "admin"         # change this in production
+
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+
+  # Tool installations (optional, but useful placeholders)
+  tools:
+    maven:
+      installations:
+        - name: "Maven"
+          home: "/usr/share/maven"
+
+  # Plugin configuration placeholders
+  # Example: configure JDK, Git, etc. here if needed
+  nodes:
+    - permanent:
+        name: "built-in-node"
+        remoteFS: "/var/jenkins_home"
+        labelString: "master"
+        launcher:
+          jnlp:
+            workDirSettings:
+              disabled: false
+              internalDir: "remoting"
+              failIfWorkDirIsMissing: false
+
+unclassified:
+  # CasC plugin specific settings
+  location:
+    url: "http://localhost:8080/"
