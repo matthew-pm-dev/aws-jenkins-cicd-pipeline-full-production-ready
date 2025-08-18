@@ -19,7 +19,8 @@ RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
 
 COPY casc-config/jenkins.yml /usr/share/jenkins/ref/casc-config/jenkins.yml
 
-ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/usr/share/jenkins/ref/casc-config"
+ENV JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
+ENV CASC_JENKINS_CONFIG="/usr/share/jenkins/ref/casc-config"
 
 USER jenkins
 

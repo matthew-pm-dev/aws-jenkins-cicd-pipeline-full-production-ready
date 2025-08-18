@@ -19,3 +19,4 @@ email-ext
 mailer
 configuration-as-code
 maven-plugin
+dark-theme

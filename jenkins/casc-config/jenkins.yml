@@ -1,41 +1,42 @@
 jenkins:
-  # Set the Jenkins system message (optional)
-  systemMessage: "Jenkins is running via CasC"
+  systemMessage: "Jenkins start-up configured via CasC Plugin"
 
-  # Basic security setup
   securityRealm:
     local:
-      allowsSignup: false           # disable creating new users
-      users:
-        - id: "admin"               # initial admin user
-          password: "admin"         # change this in production
-
+      allowsSignup: false
+    users:
+      - id: "${file:/run/secrets/jenkins-admin-username}"
+        password: "${file:/run/secrets/jenkins-admin-password}"
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
 
-  # Tool installations (optional, but useful placeholders)
-  tools:
-    maven:
-      installations:
-        - name: "Maven"
-          home: "/usr/share/maven"
+  # appearance:
+  #   themeManager:
+  #     disableUserThemes: true
+  #     theme: "dark"
+#   # Tool installations (optional, but useful placeholders)
+#   tools:
+#     maven:
+#       installations:
+#         - name: "Maven"
+#           home: "/usr/share/maven"
 
-  # Plugin configuration placeholders
-  # Example: configure JDK, Git, etc. here if needed
-  nodes:
-    - permanent:
-        name: "built-in-node"
-        remoteFS: "/var/jenkins_home"
-        labelString: "master"
-        launcher:
-          jnlp:
-            workDirSettings:
-              disabled: false
-              internalDir: "remoting"
-              failIfWorkDirIsMissing: false
+#   # Plugin configuration placeholders
+#   # Example: configure JDK, Git, etc. here if needed
+#   nodes:
+#     - permanent:
+#         name: "built-in-node"
+#         remoteFS: "/var/jenkins_home"
+#         labelString: "master"
+#         launcher:
+#           jnlp:
+#             workDirSettings:
+#               disabled: false
+#               internalDir: "remoting"
+#               failIfWorkDirIsMissing: false
 
-unclassified:
-  # CasC plugin specific settings
-  location:
-    url: "http://localhost:8080/"
+# unclassified:
+#   # CasC plugin specific settings
+#   location:
+#     url: "http://localhost:8080/"

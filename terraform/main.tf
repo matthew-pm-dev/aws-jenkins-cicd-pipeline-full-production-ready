@@ -27,3 +27,5 @@ data "aws_subnets" "default" {
 data "aws_ec2_managed_prefix_list" "ec2_instance_connect" {
   name = "com.amazonaws.${var.region}.ec2-instance-connect"
 }
+
+data "aws_caller_identity" "current" {}

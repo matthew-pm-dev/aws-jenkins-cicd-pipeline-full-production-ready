@@ -7,10 +7,11 @@ services:
       - 50000:50000
     volumes:
       - jenkins_home:/var/jenkins_home
+      - /opt/jenkins/secrets:/run/secrets:ro
       #- /opt/jenkins/init-scripts:/var/jenkins_home/init.groovy.d:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
-    restart: unless-stopped
+    #restart: unless-stopped
 
 volumes:
   jenkins_home:
