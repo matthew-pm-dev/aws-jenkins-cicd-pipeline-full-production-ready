@@ -16,8 +16,8 @@ mkdir -p /opt/jenkins/secrets
 chown -R jenkins:jenkins /opt/jenkins
 aws s3 cp "s3://${bucket_name}/jenkins" "/opt/jenkins/" --recursive
 
-aws ssm get-parameter --name "/jenkins/admin-username" --region us-east-1 --query Parameter.Value --output text | tr -d '\r\n' > /opt/jenkins/secrets/jenkins-admin-username
-aws ssm get-parameter --name "/jenkins/admin-password" --region us-east-1 --with-decryption --query Parameter.Value --output text | tr -d '\r\n' > /opt/jenkins/secrets/jenkins-admin-password
+aws ssm get-parameter --name "/jenkins/admin-username" --region us-east-1 --query Parameter.Value --output text | tr -d '\r\n' > /opt/jenkins/secrets/admin_username
+aws ssm get-parameter --name "/jenkins/admin-password" --region us-east-1 --with-decryption --query Parameter.Value --output text | tr -d '\r\n' > /opt/jenkins/secrets/admin_password
 
 cd /opt/jenkins
 

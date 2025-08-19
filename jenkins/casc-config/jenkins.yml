@@ -4,17 +4,17 @@ jenkins:
   securityRealm:
     local:
       allowsSignup: false
-    users:
-      - id: "${file:/run/secrets/jenkins-admin-username}"
-        password: "${file:/run/secrets/jenkins-admin-password}"
+      users:
+        - id: ${readFile:${ADMIN_USERNAME_FILE}}
+          password: ${readFile:${ADMIN_PASSWORD_FILE}}
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
 
-  # appearance:
-  #   themeManager:
-  #     disableUserThemes: true
-  #     theme: "dark"
+# appearance:
+#   themeManager:
+#     disableUserThemes: true
+#     theme: "dark"
 #   # Tool installations (optional, but useful placeholders)
 #   tools:
 #     maven:

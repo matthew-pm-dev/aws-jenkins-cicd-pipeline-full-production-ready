@@ -2,6 +2,9 @@ services:
   jenkins:
     image: mpm-jenkins-custom:latest
     container_name: jenkins
+    environment:
+      - ADMIN_USERNAME_FILE=/run/secrets/admin_username
+      - ADMIN_PASSWORD_FILE=/run/secrets/admin_password
     ports: 
       - 8080:8080
       - 50000:50000
