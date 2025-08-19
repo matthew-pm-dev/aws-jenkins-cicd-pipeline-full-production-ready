@@ -1,5 +1,5 @@
 jenkins:
-  systemMessage: "Jenkins start-up configured via CasC Plugin"
+  systemMessage: "Jenkins start-up configured via JCasC Plugin"
 
   securityRealm:
     local:
