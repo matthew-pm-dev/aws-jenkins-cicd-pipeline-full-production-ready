@@ -15,6 +15,11 @@ resource "aws_iam_role" "jenkins_ec2_role" {
   })
 }
 
+resource "aws_iam_role_policy_attachment" "jenkins_ssm_ec2_role_attach" {
+  role       = aws_iam_role.jenkins_ec2_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
 resource "aws_iam_policy" "jenkins_parameter_store_access" {
   name = "jenkins-parameter-store-access"
   description = "Jenkins server authorization to fetch admin user/pass from parameter store"
@@ -29,10 +34,6 @@ resource "aws_iam_role_policy_attachment" "jenkins_parameter_store_role_attach" 
   policy_arn = aws_iam_policy.jenkins_parameter_store_access.arn
 }
 
-resource "aws_iam_role_policy_attachment" "ssm_ec2_role_attach" {
-  role       = aws_iam_role.jenkins_ec2_role.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-}
 
 resource "aws_iam_role_policy_attachment" "s3_readonly" {
   role       = aws_iam_role.jenkins_ec2_role.name

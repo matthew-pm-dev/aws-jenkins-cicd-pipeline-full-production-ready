@@ -32,7 +32,7 @@ resource "aws_instance" "nexus_server" {
   instance_type = var.nexus_instance_type
   subnet_id     = element(data.aws_subnets.default.ids, 0)
 
-  iam_instance_profile = aws_iam_instance_profile.jenkins_ec2_profile.name
+  iam_instance_profile = aws_iam_instance_profile.nexus_ec2_profile.name
   vpc_security_group_ids = [aws_security_group.nexus.id]
 
   user_data = file("${path.module}/scripts/nexus-bootstrap.sh")
